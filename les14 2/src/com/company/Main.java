@@ -1,16 +1,22 @@
 package com.company;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //вспомогательные классы в java
         // String (StringBuilder, StringBuffer)
         // Math
         // Классы оболочки примитивные типы
         // Date и Calendar
         // File
+
+
         ///////////////////////////////////////////////////////////////////////////////////////
         //String
         String s = "text";
@@ -97,6 +103,8 @@ public class Main {
         //////////////////////////////////////////////////////////////////////////////////////////
         //           14.3
         // Math
+
+
         Math.pow(5, 3); // возведение числа в степень
         System.out.println(Math.pow(5, 3));
 
@@ -140,6 +148,8 @@ public class Main {
 //        System.out.println("Затрачено попыток: " + counter);
 
         ////////////////////////////////////////////////////////////////////////////////////////////
+
+
         // оболочки
 
         // примитивные типы в джава + обьекты
@@ -174,17 +184,17 @@ public class Main {
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-       // Date & Calendar
+        // Date & Calendar
 
         // дата применяется если нинужно ничего делать только хранить
         // Calendar если нужно чтото делать
 
-      //   Date - работа с датой
+        //   Date - работа с датой
 
         Date date = new Date(); // при использовании дэх конструктора в дайт запишеться текущая дата с ос
         System.out.println(date);
 
-        Date date1 = new Date(-3600*100000); // @Deprecated - чтобы зачеркивало метод
+        Date date1 = new Date(-3600 * 100000); // @Deprecated - чтобы зачеркивало метод
         // время Unix time ( время задано с 1 января 1970)
         System.out.println(date1);// в скобках кол милисикунд  с 1 января 1970
         System.out.println(date.getTime());
@@ -193,13 +203,13 @@ public class Main {
         date.setTime(1200); // перед или после
         System.out.println(date.after(date1));
 
-        Calendar calendar= Calendar.getInstance(); // статик метод который возвращает обьект календаря
+        Calendar calendar = Calendar.getInstance(); // статик метод который возвращает обьект календаря
         System.out.println(calendar);
         // ERA WEEK OF YEAR
 
-       // calendar.set(Calendar.ERA, 0);
-       //calendar.set(Calendar.WEEK_OF_YEAR,1);
-       // calendar.set(Calendar.WEEK_OF_MONTH,4);
+        // calendar.set(Calendar.ERA, 0);
+        //calendar.set(Calendar.WEEK_OF_YEAR,1);
+        // calendar.set(Calendar.WEEK_OF_MONTH,4);
 
         //calendar.set(Calendar.YEAR,2020);
         //calendar.set(Calendar.MONTH, Calendar.SEPTEMBER);
@@ -208,12 +218,110 @@ public class Main {
         System.out.println(calendar.getTime());
         System.out.println(calendar.get(Calendar.MILLISECOND));
 
-        calendar.add(Calendar.MONTH,1);
+        calendar.add(Calendar.MONTH, 1);
         System.out.println(calendar.getTime());//
 
         calendar.add(Calendar.DAY_OF_MONTH, -248);
         System.out.println(calendar.getTime());
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        // File // не умеет ни записывать ни удалять
+        // только управляет атрибутами файла
+
+        File f = new File("1.txt");// у класса нет дефолтного конструктора
+        // в конструкторе в  качестве пути можно указать путь как к файлу так и к папке
+        // класс файл будет работать с папкой как с файлом
+        // путь может быть задан либо в относительном либо в абсолютном формате
+        // ../.. возврат на уровень выше файловой иерархии относительно текущей папки
+
+        if (!f.exists()) ;
+        { // если файл не существуем то создаем его
+            f.createNewFile(); //жмем альэнтер - добавить искл в сигнатуру метода если не хочется писать трайкедж
+            // в майн добавился троус
+        }
+
+        f.setReadOnly();// поставить галочку только чтение
+        f.setLastModified(9999999999999999L);
+
+        System.out.println(f.length()); // размер файла
+
+
+        System.out.println(f.getFreeSpace()); // свободное место на диске кол байт на котором этот файл расположен
+        f.renameTo(new File("" +
+                "new.txt"));
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Папки
+        File dir = new File("D:\\java\\example\\"); // нужно ставить 2 слеша
+        if (!dir.exists()) { // если такой папки нет то создаем
+            // dir.mkdir()// создат только первую папку в пути кот нету
+            dir.mkdirs(); // создаст все папки
+        }
+
+
+        String[] files = dir.list();// вернет название всех фалов и папок
+        for (String file : files) {
+            System.out.println(file);
+        }
+
+        File[] files2 = dir.listFiles();//
+        for (File file : files2) {
+            if (file.isDirectory()) {// если файл папка
+                System.out.println("[" + file.getName() + "]");
+            } else {
+                System.out.println(file.getName());
+            }
+        }
+        // вывести на экран все папки в екземпле
+        System.out.println("//////////////////////////////");
+
+
+        File[] files3 = dir.listFiles();
+        for (File file : files3) {
+           // System.out.println(file.getName());
+            if (file.isDirectory()) {
+                String[] files4 = dir.list();
+
+                for (String file2 : files4) {
+                    System.out.println(file.getName());
+                    System.out.println(file2);
+                }// если дерево использовать рекурсию
+            }
+        }
+    }
+
+
+
+    private static void date() {// data
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");/// работа с датой
+        String data = "2021-12-16";
+        try {
+            Date dddd = df.parse(data);// парс создает обьект типа дейт
+            System.out.println(dddd);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        df = new SimpleDateFormat("dd/MM/yyyy $ HH:mm:ss");
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Введите дату в формате: dd/MM/yyyy $ HH:mm:ss");
+        try {
+            Date s1 = df.parse(sc.nextLine()); // сразу в парс передаем то что пишет пользователь
+            System.out.println(s1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Date now = new Date();
+        df.format(now);
+        System.out.println(df.format(now));// вывод текущей даты в моем формате
+        Date date2 = new Date(212987912);//конструктор принимает милисикунды как дата
+        System.out.println(date2);
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     }
 
