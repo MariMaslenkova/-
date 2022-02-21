@@ -1,0 +1,6 @@
+NAME;SALARY;BONUS;TOTAL;
+Ivanov;1520;965;=B2+C2;
+Kukushkin;845;898;=B3+C3;
+Pryshkin;8745;87;=B4+C4;
+Mamedov;95;87;=B5+C5;
+TOTAL;;;=СУММ(D1:D4);
